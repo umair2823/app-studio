@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dino Game - Learn From Scratch</title>
+  <link rel="stylesheet" href="{% static 'scores/style.css' %}" />
+</head>
+<body>
+  <h1>Jumping Dino game</h1>
+
+  <!-- The canvas is our "drawing surface". Nothing here is  visible by default -
+       everything you see (dino, ground, cactus) is DRAWN by JavaScript, every frame. -->
+  <canvas id="gameCanvas" width="600" height="150"></canvas>
+
+  <p id="scoreDisplay">Score: 0</p>
+  <p id="instructions">Press SPACE to jump / start</p>
+
+  <!-- Leaderboard section - filled in by Stage 2 (Django backend) -->
+  <div id="leaderboard">
+    <h3>Top Scores</h3>
+    <ol id="leaderboardList"></ol>
+  </div>
+
+  <!-- defer = run this script only after the whole HTML page has loaded -->
+<script src="{% static 'scores/game.js' %}" defer></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="{% static 'calculator/css/style.css' %}">
+</head>
+<body>
+
+        <div id="calculator" data-mode="deg" data-theme="dark">
+
+        {% csrf_token %}
+
+        <div class="calc-header">
+            <button type="button" id="theme-toggle" aria-label="Toggle theme">🌓</button>
+        </div>
+
+        <div class="screen">
+            <div class="screen-top">
+                <span id="mode-tag">DEG</span>
+            </div>
+            <div id="expression"></div>
+            <div id="result"></div>
+        </div>
+        
+        <div class="buttons">
+
+            <button type="button" class="btn util" data-action="clear">C</button>
+            <button type="button" class="btn util" data-action="clear-entry">CE</button>
+            <button type="button" class="btn util" data-action="backspace">⌫</button>
+            <button type="button" class="btn util" data-action="mode">DEG/RAD</button>
+
+            <button type="button" class="btn func" data-insert="sin(">sin</button>
+            <button type="button" class="btn func" data-insert="cos(">cos</button>
+            <button type="button" class="btn func" data-insert="tan(">tan</button>
+            <button type="button" class="btn op" data-insert="(">(</button>
+
+            <button type="button" class="btn func" data-insert="asin(">asin</button>
+            <button type="button" class="btn func" data-insert="acos(">acos</button>
+            <button type="button" class="btn func" data-insert="atan(">atan</button>
+            <button type="button" class="btn op" data-insert=")">)</button>
+
+            <button type="button" class="btn func" data-insert="log(">log</button>
+            <button type="button" class="btn func" data-insert="ln(">ln</button>
+            <button type="button" class="btn func" data-insert="sqrt(">sqrt</button>
+            <button type="button" class="btn op" data-insert="^">^</button>
+
+            <button type="button" class="btn func" data-insert="exp(">exp</button>
+            <button type="button" class="btn const" data-insert="π">π</button>
+            <button type="button" class="btn const" data-insert="e">e</button>
+            <button type="button" class="btn op" data-insert="%">%</button>
+
+            <button type="button" class="btn digit" data-insert="7">7</button>
+            <button type="button" class="btn digit" data-insert="8">8</button>
+            <button type="button" class="btn digit" data-insert="9">9</button>
+            <button type="button" class="btn op" data-insert="÷">÷</button>
+
+            <button type="button" class="btn digit" data-insert="4">4</button>
+            <button type="button" class="btn digit" data-insert="5">5</button>
+            <button type="button" class="btn digit" data-insert="6">6</button>
+            <button type="button" class="btn op" data-insert="×">×</button>
+
+            <button type="button" class="btn digit" data-insert="1">1</button>
+            <button type="button" class="btn digit" data-insert="2">2</button>
+            <button type="button" class="btn digit" data-insert="3">3</button>
+            <button type="button" class="btn op" data-insert="-">−</button>
+
+            <button type="button" class="btn digit" data-insert="0">0</button>
+            <button type="button" class="btn digit" data-insert=".">.</button>
+            <button type="button" class="btn equals" data-action="evaluate">=</button>
+            <button type="button" class="btn op" data-insert="+">+</button>
+
+        </div>
+    </div>
+
+    <script src="{% static 'calculator/js/script.js' %}"></script>
+</body>
+</html>

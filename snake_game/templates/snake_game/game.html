@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake // Terminal</title>
+    <link rel="stylesheet" href="{% static 'snake_game/style.css' %}">
+
+</head>
+<body>
+
+    <!--
+        This hidden div carries the Django CSRF token into JavaScript.
+        Django protects POST requests from other sites forging requests on
+        your behalf (Cross-Site Request Forgery). Since we're not using a
+        <form> tag for our POST (we use fetch() in JS instead), we grab the
+        token this way and attach it manually as a header.
+    -->
+    {% csrf_token %}
+
+    <div class="crt">
+        <header class="hud">
+            <div class="hud-block">
+                <span class="hud-label">SCORE</span>
+                <span class="hud-value" id="score">000</span>
+            </div>
+            <h1 class="title">SNAKE<span class="title-blink">_</span></h1>
+            <div class="hud-block">
+                <span class="hud-label">BEST</span>
+                <span class="hud-value" id="best">000</span>
+            </div>
+        </header>
+
+        <div class="board-wrap">
+            <canvas id="board" width="400" height="400"></canvas>
+
+            <div class="overlay" id="overlay">
+                <p class="overlay-msg" id="overlayMsg">PRESS ANY ARROW KEY TO START</p>
+                <div class="game-over-panel" id="gameOverPanel" hidden>
+                    <p class="overlay-title">GAME OVER</p>
+                    <p class="overlay-msg">Final score: <span id="finalScore">0</span></p>
+                    <label class="name-label">
+                        ENTER NAME
+                        <input type="text" id="playerName" maxlength="12" value="Player">
+                    </label>
+                    <button id="submitScore" class="btn">SAVE &amp; RESTART</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="leaderboard">
+            <h2 class="lb-title">TOP RUNS</h2>
+            <ol id="leaderboardList" class="lb-list">
+                <li class="lb-empty">Loading...</li>
+            </ol>
+        </section>
+
+        <p class="controls-hint">Arrow keys / WASD to move &nbsp;·&nbsp; Space to pause</p>
+    </div>
+
+    <script src="{% static 'snake_game/game.js' %}"></script>
+</body>
+</html>

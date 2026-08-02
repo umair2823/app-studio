@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="sheet standalone">
+        <h3>Log in</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="sheet-actions">
+                <button type="submit" class="btn primary" style="flex:1;">Log in</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

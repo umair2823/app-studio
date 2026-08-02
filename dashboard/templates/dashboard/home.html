@@ -1,0 +1,13 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>App Studio</title><link rel="stylesheet" href="{% static 'dashboard/home.css' %}"></head>
+<body>
+  <header class="topbar"><a class="brand" href="{% url 'dashboard:home' %}"><span>✦</span> APP STUDIO</a><div class="account">{% if user.is_authenticated %}<span>Hello, {{ user.username }}</span><a href="{% url 'logout' %}">Log out</a>{% else %}<a href="{% url 'login' %}">Log in</a><a class="signup" href="{% url 'alarms:signup' %}">Sign up</a>{% endif %}</div></header>
+  <main><section class="hero"><p class="eyebrow">ONE DJANGO PROJECT · FOUR APPS</p><h1>Choose an app<br>and get going.</h1><p class="intro">Your alarm clock, calculator, and two browser games—all connected through one dashboard.</p></section><section class="apps" aria-label="Apps">
+    <a class="card alarm" href="{% url 'alarms:list' %}"><span class="icon">⏰</span><small>PRODUCTIVITY</small><h2>Alarm Clock</h2><p>Create alarms and manage your daily schedule.</p><b>Open app <i>→</i></b></a>
+    <a class="card calculator" href="{% url 'calculator:index' %}"><span class="icon">∑</span><small>UTILITY</small><h2>Scientific Calculator</h2><p>Calculate with functions, powers, and constants.</p><b>Open app <i>→</i></b></a>
+    <a class="card jumping" href="{% url 'home' %}"><span class="icon">↟</span><small>ARCADE</small><h2>Jumping Box</h2><p>Jump over obstacles and chase the high score.</p><b>Play now <i>→</i></b></a>
+    <a class="card snake" href="{% url 'snake_game:game' %}"><span class="icon">⌁</span><small>ARCADE</small><h2>Snake Game</h2><p>Collect food, grow longer, and lead the board.</p><b>Play now <i>→</i></b></a>
+  </section></main>
+</body></html>

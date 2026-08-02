@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+db.sqlite3
+.venv/
+staticfiles/
+venv/
+db.sqlite3
+staticfiles/
+venv/
+db.sqlite3
+staticfiles/

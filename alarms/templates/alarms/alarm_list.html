@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="dial-wrap">
+        <svg viewBox="0 0 300 300" id="dialSvg"></svg>
+        <div class="clock-center">
+            <div class="clock-time" id="clockTime">--:--<span class="sec" id="clockSec">--</span></div>
+            <div class="clock-sub" id="clockAmpm">--</div>
+        </div>
+    </div>
+    <div class="date-row" id="dateLabel">—</div>
+
+    <div class="section-head">
+        <h2>Alarms</h2>
+        <span class="count-pill" id="countPill">{{ alarms|length }} total</span>
+    </div>
+
+    <div class="alarm-list">
+        {% for alarm in alarms %}
+            <div class="alarm-card {% if not alarm.is_active %}disabled{% endif %}">
+                <div class="alarm-time">{{ alarm.time|time:"g:i" }}<span>{{ alarm.time|time:"A" }}</span></div>
+                <div class="alarm-info">
+                    <div class="alarm-label">{{ alarm.label|default:"Alarm" }}</div>
+                    <div class="alarm-days">{{ alarm.repeat_summary }}</div>
+                </div>
+                <div class="alarm-actions">
+                    <a href="{% url 'alarms:edit' alarm.pk %}" class="icon-btn edit" title="Edit">✎</a>
+                    <form method="post" action="{% url 'alarms:delete' alarm.pk %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="icon-btn del" title="Delete">✕</button>
+                    </form>
+                    <label class="switch">
+                        <input type="checkbox"
+                               data-alarm-id="{{ alarm.pk }}"
+                               data-action="toggle"
+                               {% if alarm.is_active %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-state"><b>No alarms yet</b>Tap the + button to set your first one.</div>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'alarms:create' %}" class="fab" title="Add alarm">+</a>
+
+    <div class="ring-overlay" id="alarm-banner">
+        <div class="ring-pulse"><span>⏰</span></div>
+        <div class="ring-time" id="ringTime">00:00</div>
+        <div class="ring-label" id="ringLabel">Alarm</div>
+        <div class="ring-actions">
+            <button class="snooze" type="button" id="snoozeBtn">Snooze</button>
+            <button class="dismiss" type="button" id="dismissBtn">Dismiss</button>
+        </div>
+    </div>
+
+    {{ dial_data|json_script:"dial-data" }}
+{% endblock %}

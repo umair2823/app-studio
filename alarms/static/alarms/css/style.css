@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg: #0b1220;
+  --panel: #121c2b;
+  --panel-2: #16212f;
+  --line: #223047;
+  --text: #e8ecf1;
+  --muted: #7c8aa0;
+  --amber: #f2a93b;
+  --amber-dim: #7a5b22;
+  --danger: #e6584c;
+  --ok: #3ddc97;
+}
+
+*{box-sizing:border-box;}
+html,body{
+  margin:0; padding:0; min-height:100%;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #14203399, transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk', sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.app{
+  max-width:520px;
+  margin:0 auto;
+  padding:28px 20px 100px;
+  min-height:100vh;
+  position:relative;
+}
+
+.top{
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:18px;
+}
+.brand{
+  font-size:13px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--muted); font-weight:500;
+}
+.brand b{ color:var(--amber); }
+.top-right a.top-link{
+  font-size:12px; color:var(--muted); text-decoration:none; margin-left:14px;
+}
+.top-right a.top-link:hover{ color:var(--amber); }
+.date-row{ text-align:center; font-size:12px; color:var(--muted); margin-bottom:18px; }
+
+/* --- Dial --- */
+.dial-wrap{
+  position:relative; width:100%; max-width:320px;
+  margin:6px auto 10px; aspect-ratio:1/1;
+}
+.dial-wrap svg{ width:100%; height:100%; overflow:visible; }
+.tick{ stroke:var(--line); stroke-width:1.5; }
+.tick.major{ stroke:#33465f; stroke-width:2.5; }
+.hand{ stroke:var(--amber); stroke-width:2.5; stroke-linecap:round; filter:drop-shadow(0 0 6px rgba(242,169,59,.65)); }
+.hub{ fill:var(--amber); }
+.alarm-dot{ fill:var(--muted); stroke:var(--bg); stroke-width:2; }
+.alarm-dot.active{ fill:var(--amber); filter:drop-shadow(0 0 5px rgba(242,169,59,.8)); }
+.dial-hour-label{ font-family:'DM Mono', monospace; font-size:10px; fill:var(--muted); }
+
+.clock-center{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.clock-time{
+  font-family:'DM Mono', monospace;
+  font-size:clamp(30px, 8vw, 40px); font-weight:500; letter-spacing:.02em;
+  text-shadow:0 0 18px rgba(242,169,59,.25);
+}
+.clock-time .sec{ color:var(--muted); font-size:.55em; margin-left:6px; }
+.clock-sub{ margin-top:4px; font-size:11px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
+
+/* --- Section header --- */
+.section-head{ display:flex; align-items:center; justify-content:space-between; margin:6px 2px 12px; }
+.section-head h2{ font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0; font-weight:600; }
+.count-pill{
+  font-family:'DM Mono', monospace; font-size:11px; color:var(--amber);
+  background:rgba(242,169,59,.1); border:1px solid rgba(242,169,59,.25);
+  padding:2px 8px; border-radius:20px;
+}
+
+/* --- Alarm cards --- */
+.alarm-list{ display:flex; flex-direction:column; gap:10px; }
+.alarm-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:16px;
+  padding:14px 16px; display:flex; align-items:center; gap:14px;
+  transition:opacity .2s;
+}
+.alarm-card.disabled{ opacity:.45; }
+.alarm-time{
+  font-family:'DM Mono', monospace; font-size:26px; font-weight:500;
+  min-width:108px; color:var(--text);
+}
+.alarm-time span{ font-size:14px; color:var(--muted); margin-left:4px; }
+.alarm-info{ flex:1; min-width:0; }
+.alarm-label{ font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.alarm-days{ font-size:11px; color:var(--muted); margin-top:2px; letter-spacing:.03em; }
+.alarm-actions{ display:flex; align-items:center; gap:10px; }
+
+.icon-btn{
+  background:none; border:none; color:var(--muted); cursor:pointer; text-decoration:none;
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+  border-radius:8px; transition:background .15s, color .15s; font-size:15px;
+}
+.icon-btn:hover{ background:var(--panel-2); color:var(--text); }
+.icon-btn.del:hover{ color:var(--danger); }
+.delete-form{ display:inline; }
+
+.switch{ position:relative; width:40px; height:23px; flex-shrink:0; }
+.switch input{ opacity:0; width:0; height:0; }
+.slider{
+  position:absolute; inset:0; background:#26344a; border-radius:20px;
+  cursor:pointer; transition:background .2s;
+}
+.slider::before{
+  content:''; position:absolute; width:17px; height:17px; left:3px; top:3px;
+  background:#c7d0dd; border-radius:50%; transition:transform .2s, background .2s;
+}
+.switch input:checked + .slider{ background:var(--amber-dim); }
+.switch input:checked + .slider::before{ transform:translateX(17px); background:var(--amber); }
+
+.empty-state{
+  text-align:center; padding:40px 20px; color:var(--muted);
+  border:1px dashed var(--line); border-radius:16px; font-size:13px;
+}
+.empty-state b{ color:var(--text); display:block; font-size:15px; margin-bottom:4px; }
+
+/* --- FAB --- */
+.fab{
+  position:fixed; bottom:26px; left:50%; transform:translateX(-50%);
+  background:var(--amber); color:#1a1200; border:none; text-decoration:none;
+  width:58px; height:58px; border-radius:50%;
+  font-size:28px; font-weight:600; cursor:pointer;
+  box-shadow:0 8px 24px rgba(242,169,59,.35);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .15s;
+}
+.fab:active{ transform:translateX(-50%) scale(.92); }
+
+/* --- Sheet (form pages) --- */
+.sheet.standalone{
+  background:var(--panel); border:1px solid var(--line); border-radius:20px;
+  max-width:420px; margin:20px auto; padding:22px 20px 26px;
+}
+.sheet h3{ margin:0 0 18px; font-size:16px; letter-spacing:.05em; }
+.sheet form p{ margin-bottom:16px; }
+.sheet form label{
+  display:block; font-size:11px; text-transform:uppercase; letter-spacing:.12em;
+  color:var(--muted); margin-bottom:7px;
+}
+.sheet form input[type="text"],
+.sheet form input[type="time"],
+.sheet form input[type="number"],
+.sheet form input[type="password"]{
+  width:100%; background:var(--panel-2); border:1px solid var(--line);
+  color:var(--text); font-family:'Space Grotesk', sans-serif; font-size:15px;
+  padding:10px 12px; border-radius:10px; outline:none;
+}
+.sheet form input[type="time"]{ font-family:'DM Mono', monospace; font-size:20px; }
+.sheet form input:focus{ border-color:var(--amber); }
+
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:7px; }
+.days-row{ display:flex; gap:6px; }
+.day-btn{
+  flex:1; padding:9px 0; text-align:center; font-size:12px; font-weight:600;
+  background:var(--panel-2); border:1px solid var(--line); color:var(--muted);
+  border-radius:9px; cursor:pointer; user-select:none;
+}
+.day-btn.on{ background:var(--amber-dim); border-color:var(--amber); color:var(--amber); }
+
+.sheet-actions{ display:flex; gap:10px; margin-top:20px; }
+.btn{
+  flex:1; padding:13px; border-radius:11px; border:none; font-size:14px;
+  font-weight:600; cursor:pointer; font-family:inherit; text-align:center; text-decoration:none;
+}
+.btn.primary{ background:var(--amber); color:#1a1200; }
+.btn.ghost{ background:var(--panel-2); color:var(--text); border:1px solid var(--line); }
+
+/* --- Ringing overlay --- */
+.ring-overlay{
+  position:fixed; inset:0; background:#08101c; z-index:100;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .25s;
+}
+.ring-overlay.show{ opacity:1; pointer-events:auto; }
+.ring-pulse{
+  width:120px; height:120px; border-radius:50%;
+  background:radial-gradient(circle, rgba(242,169,59,.35), transparent 70%);
+  display:flex; align-items:center; justify-content:center;
+  animation:pulse 1.4s ease-in-out infinite; margin-bottom:26px;
+}
+.ring-pulse span{ font-size:44px; }
+@keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.12); } }
+.ring-time{ font-family:'DM Mono', monospace; font-size:44px; color:var(--amber); }
+.ring-label{ font-size:16px; color:var(--text); margin-top:8px; }
+.ring-actions{ display:flex; gap:14px; margin-top:36px; }
+.ring-actions button{
+  padding:16px 28px; border-radius:14px; border:none; font-size:15px; font-weight:700; cursor:pointer;
+}
+.ring-actions .snooze{ background:var(--panel-2); color:var(--text); border:1px solid var(--line); }
+.ring-actions .dismiss{ background:var(--danger); color:#fff; }
+
+@media (max-width:500px){
+  .alarm-card{ flex-wrap:wrap; }
+}

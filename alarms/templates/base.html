@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise — Alarm Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'alarms/css/style.css' %}">
+</head>
+<body>
+    {% csrf_token %}
+
+    <div class="app">
+        <div class="top">
+            <a href="{% url 'dashboard:home' %}" class="brand"><b>●</b> RISE ALARM</a>
+            <div class="top-right">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="top-link">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="top-link">Login</a>
+                    <a href="{% url 'alarms:signup' %}" class="top-link">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <script src="{% static 'alarms/js/alarm-checker.js' %}"></script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="sheet standalone">
+        <h3>{% if form.instance.pk %}Edit alarm{% else %}New alarm{% endif %}</h3>
+
+        <form method="post" id="alarmForm">
+            {% csrf_token %}
+
+            <p>
+                <label for="{{ form.label.id_for_label }}">Label</label>
+                {{ form.label }}
+            </p>
+            <p>
+                <label for="{{ form.time.id_for_label }}">Time</label>
+                {{ form.time }}
+            </p>
+
+            <div class="field">
+                <label>Repeat</label>
+                <div class="days-row" id="daysRow"></div>
+                {{ form.repeat_days }}
+            </div>
+
+            <p>
+                <label for="{{ form.snooze_minutes.id_for_label }}">Snooze (minutes)</label>
+                {{ form.snooze_minutes }}
+            </p>
+
+            <div class="sheet-actions">
+                <a href="{% url 'alarms:list' %}" class="btn ghost">Cancel</a>
+                <button type="submit" class="btn primary">Save alarm</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        (function () {
+            const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const hiddenInput = document.getElementById('{{ form.repeat_days.id_for_label }}');
+            const daysRow = document.getElementById('daysRow');
+
+            let selected = (hiddenInput.value || '')
+                .split(',')
+                .map(function (s) { return s.trim(); })
+                .filter(Boolean);
+
+            function render() {
+                daysRow.innerHTML = '';
+                DAY_NAMES.forEach(function (name, idx) {
+                    const btn = document.createElement('div');
+                    btn.className = 'day-btn' + (selected.includes(name) ? ' on' : '');
+                    btn.textContent = DAY_LABELS[idx];
+                    btn.addEventListener('click', function () {
+                        const pos = selected.indexOf(name);
+                        if (pos === -1) selected.push(name); else selected.splice(pos, 1);
+                        render();
+                    });
+                    daysRow.appendChild(btn);
+                });
+            }
+            render();
+
+            document.getElementById('alarmForm').addEventListener('submit', function () {
+                hiddenInput.value = selected.join(',');
+            });
+        })();
+    </script>
+{% endblock %}
